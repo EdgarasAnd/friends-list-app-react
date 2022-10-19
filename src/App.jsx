@@ -1,25 +1,26 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import "./App.css";
 import Badge from "react-bootstrap/Badge";
-import NavBar from "./navbar";
+import Card from "./Card"
 
-function App() {
+export default function App() {
   return (
-    <div>      
-      <header >
-      <NavBar />
-        <div >
+    <div>
+      <header>       
+        <div>
           <h1 className="text-center my-3">
             Friends list{" "}
-            <Badge bg="secondary" as="Button">
+            <Badge bg="secondary" as="Bandge">
               App
             </Badge>
           </h1>
         </div>
       </header>
+      <main className="container">
+      <div className="row">
+        <Card />
+      </div>
+      </main>
     </div>
   );
-}
-
-export default App;
+};
