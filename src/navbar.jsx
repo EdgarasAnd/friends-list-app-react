@@ -13,7 +13,7 @@ export default function NavBar() {
           <img
             src={logo}
             width="100"
-            className="App-Logo d-inline-block align-middle"
+            className="App-logo d-inline-block align-middle"
             alt="logo"
           />
           Friends List{" "}
@@ -42,6 +42,4 @@ export default function NavBar() {
       </Container>
     </Navbar>
   );
-};
-
-
+}
