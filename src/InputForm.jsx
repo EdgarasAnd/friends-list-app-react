@@ -28,7 +28,7 @@ export default function InputForm() {
             Submit
           </Button>
         </Form>
-        <Col className="d-flex align-items-center"><img
+        <Col className="d-flex align-items-center justify-content-center"><img
             src={logo}
             width="50%"
             className="App-logo"
