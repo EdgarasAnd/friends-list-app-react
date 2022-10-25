@@ -11,36 +11,39 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
+import { ButtonGroup } from "react-bootstrap";
+import { useState } from "react";
 
 function friendId() {
   return Math.floor(Math.random() * 100);
 }
 
-const friends = [
-  {
-    id: friendId(),
-    firstName: "John",
-    lastName: "Smith",
-    age: 32,
-    city: "Kaunas",
-  },
-  {
-    id: friendId(),
-    firstName: "Maria",
-    lastName: "Hudghes",
-    age: 28,
-    city: "Siauliai",
-  },
-  {
-    id: friendId(),
-    firstName: "Thomas",
-    lastName: "Muiller",
-    age: 33,
-    city: "Vilnius",
-  },
-];
-
 export function App() {
+  const friends = [
+    {
+      id: friendId(),
+      firstName: "John",
+      lastName: "Smith",
+      age: 32,
+      city: "Kaunas",
+    },
+    {
+      id: friendId(),
+      firstName: "Maria",
+      lastName: "Hudghes",
+      age: 28,
+      city: "Siauliai",
+    },
+    {
+      id: friendId(),
+      firstName: "Thomas",
+      lastName: "Muiller",
+      age: 33,
+      city: "Vilnius",
+    },
+  ];
+
+  const [firstName, SetFirstName] = useState('');
   return (
     <>
       <Navbar bg="dark" expand="lg" variant="dark">
@@ -82,25 +85,20 @@ export function App() {
       <header className="container">
         <Row xs={1} md={2} lg={2} className="g-4 m-3">
           <Form className="mw-50">
-            <Form.Group className="mb-3" controlId="firstName">
-              <Form.Label>First Name</Form.Label>
-              <Form.Control type="text" placeholder="Name" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="secondName">
-              <Form.Label>Second Name</Form.Label>
-              <Form.Control type="text" placeholder="Second name" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="age">
-              <Form.Label>Age</Form.Label>
-              <Form.Control type="number" placeholder="Age" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="city">
-              <Form.Label>City</Form.Label>
-              <Form.Control type="text" placeholder="City" />
-            </Form.Group>
-            <Button className="w-100" variant="primary" type="submit">
-              Submit
-            </Button>
+            <Form.Group controlId="firstName">
+              <Form.Control className="my-1"
+                type="text"
+                placeholder="Name"
+                value={friends.firstName}
+                onChange={() => SetFirstName()}
+              />
+              <Form.Control className="my-1" type="text" placeholder="Second name" />
+              <Form.Control className="my-1" type="number" placeholder="Age" />
+              <Form.Control className="my-1" type="text" placeholder="City" />
+            
+            <Button className="w-100" variant="success" type="submit">
+              + Add
+            </Button></Form.Group>
           </Form>
           <Col className="d-flex align-items-center justify-content-center">
             <img src={logo} width="50%" className="App-logo" alt="logo" />
@@ -114,17 +112,24 @@ export function App() {
             <Col>
               <Card className="h-100 d-flex">
                 <Card.Body className="text-center">
-                  <Badge bg="success">ID: {id}</Badge>
+                  <Badge bg="secondary">ID: {id}</Badge>
                   <Card.Title>
                     {firstName}
                     <br></br> {lastName}
                   </Card.Title>
                   <Card.Text>Age: {age}</Card.Text>
                   <Card.Text>City: {city}</Card.Text>
-                  <Button variant="danger" className="w-100 ">
-                    Delete
-                  </Button>
                 </Card.Body>
+                <Card.Footer className="text-center">
+                  <ButtonGroup>
+                    <Button variant="danger btn-md" className="">
+                      Delete
+                    </Button>
+                    <Button variant="primary btn-md" className="">
+                      Edit
+                    </Button>
+                  </ButtonGroup>
+                </Card.Footer>
               </Card>
             </Col>
           ))}
