@@ -24,7 +24,7 @@ const friendList = [
     city: "Kaunas",
   },
   {
-    id: 1,
+    id: 2,
     firstName: "Maria",
     lastName: "Hudghes",
     age: 28,
