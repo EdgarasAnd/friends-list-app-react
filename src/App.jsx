@@ -38,12 +38,12 @@ const friendList = [
     city: "Vilnius",
   },
 ];
-console.log(friendList[1])
+
 const initialFormData = {id: "", firstName: "", lastName: "", age: "", city: "" };
 
 
 export function App() {
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState(friendList);
 
   const [formState, setFormState] = useState(initialFormData);
 
@@ -165,7 +165,7 @@ export function App() {
       </header>
 
       <main className="container">
-        {friends.id ? (
+        {friends.length ? (
           <Row xs={1} md={2} lg={5} className="g-4 m-3">
             {friends.map((friend) => (
               <Col>
