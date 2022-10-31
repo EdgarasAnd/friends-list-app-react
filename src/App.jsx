@@ -11,39 +11,70 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
-import { ButtonGroup } from "react-bootstrap";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { useState } from "react";
 
-function friendId() {
-  return Math.floor(Math.random() * 100);
-}
+
+const friendList = [
+  {
+    id: 1,
+    firstName: "John",
+    lastName: "Smith",
+    age: 32,
+    city: "Kaunas",
+  },
+  {
+    id: 1,
+    firstName: "Maria",
+    lastName: "Hudghes",
+    age: 28,
+    city: "Siauliai",
+  },
+  {
+    id: 3,
+    firstName: "Thomas",
+    lastName: "Muiller",
+    age: 33,
+    city: "Vilnius",
+  },
+];
+console.log(friendList[1])
+const initialFormData = {id: "", firstName: "", lastName: "", age: "", city: "" };
+
 
 export function App() {
-  const friends = [
-    {
-      id: friendId(),
-      firstName: "John",
-      lastName: "Smith",
-      age: 32,
-      city: "Kaunas",
-    },
-    {
-      id: friendId(),
-      firstName: "Maria",
-      lastName: "Hudghes",
-      age: 28,
-      city: "Siauliai",
-    },
-    {
-      id: friendId(),
-      firstName: "Thomas",
-      lastName: "Muiller",
-      age: 33,
-      city: "Vilnius",
-    },
-  ];
+  const [friends, setFriends] = useState([]);
 
-  const [firstName, SetFirstName] = useState('');
+  const [formState, setFormState] = useState(initialFormData);
+
+  const deleteFriend = (friendId) => {
+    const filteredFriends = friends.filter((friend) => friend.id !== friendId);
+    setFriends(filteredFriends);
+  };
+
+  const onChange = (e) => {
+    const fieldID = e.target.id;
+    const fieldValue = e.target.value;
+
+    setFormState({ ...formState, [fieldID]: fieldValue });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const newFriend = {
+      firstName: formState.firstName,
+      lastName: formState.lastName,
+      age: formState.age,
+      city: formState.city,
+      id: String(friends.length)
+    };
+
+    setFriends([...friends, newFriend]);
+    setFormState(initialFormData);
+    
+  };
+  console.log(formState)
   return (
     <>
       <Navbar bg="dark" expand="lg" variant="dark">
@@ -56,7 +87,7 @@ export function App() {
               alt="logo"
             />
             Friends List{" "}
-            <Badge bg="primary" as="Button">
+            <Badge bg="primary" as="button">
               React+Bootstrap
             </Badge>
           </Navbar.Brand>
@@ -83,22 +114,49 @@ export function App() {
         </Container>
       </Navbar>
       <header className="container">
-        <Row xs={1} md={2} lg={2} className="g-4 m-3">
-          <Form className="mw-50">
-            <Form.Group controlId="firstName">
-              <Form.Control className="my-1"
+        <Row xs={1} md={2} lg={4} className="g-4 m-3">
+          <Form onSubmit={onSubmit} className="mw-50">
+            
+              <Form.Control
+                className="my-1"
                 type="text"
                 placeholder="Name"
-                value={friends.firstName}
-                onChange={() => SetFirstName()}
+                id="firstName"
+                value={formState.firstName}
+                onChange={onChange}
               />
-              <Form.Control className="my-1" type="text" placeholder="Second name" />
-              <Form.Control className="my-1" type="number" placeholder="Age" />
-              <Form.Control className="my-1" type="text" placeholder="City" />
+              <Form.Control
+                className="my-1"
+                type="text"
+                placeholder="Last name"
+                id="lastName"
+                value={formState.lastName}
+                onChange={onChange}
+              />
+              <Form.Control
+                className="my-1"
+                type="number"
+                placeholder="Age"
+                id="age"
+                value={formState.age}
+                onChange={onChange}
+              />
+              <Form.Control
+                className="my-1"
+                type="text"
+                placeholder="City"
+                id="city"
+                value={formState.city}
+                onChange={onChange}
+              />
+
+              <Button                
+                className="w-100"
+                variant="success"
+                type="submit">
+                + Add
+              </Button>
             
-            <Button className="w-100" variant="success" type="submit">
-              + Add
-            </Button></Form.Group>
           </Form>
           <Col className="d-flex align-items-center justify-content-center">
             <img src={logo} width="50%" className="App-logo" alt="logo" />
@@ -107,33 +165,45 @@ export function App() {
       </header>
 
       <main className="container">
-        <Row xs={2} md={3} lg={4} className="g-4 m-3">
-          {friends.map(({ id, firstName, lastName, age, city }) => (
-            <Col>
-              <Card className="h-100 d-flex">
-                <Card.Body className="text-center">
-                  <Badge bg="secondary">ID: {id}</Badge>
-                  <Card.Title>
-                    {firstName}
-                    <br></br> {lastName}
-                  </Card.Title>
-                  <Card.Text>Age: {age}</Card.Text>
-                  <Card.Text>City: {city}</Card.Text>
-                </Card.Body>
-                <Card.Footer className="text-center">
-                  <ButtonGroup>
-                    <Button variant="danger btn-md" className="">
-                      Delete
-                    </Button>
-                    <Button variant="primary btn-md" className="">
-                      Edit
-                    </Button>
-                  </ButtonGroup>
-                </Card.Footer>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        {friends.id ? (
+          <Row xs={1} md={2} lg={5} className="g-4 m-3">
+            {friends.map((friend) => (
+              <Col>
+                <Card className="h-100 d-flex" key={friend.id}>
+                  <Card.Body className="text-center">
+                    <Badge bg="secondary">ID: {friend.id}</Badge>
+                    <Card.Title>
+                      {friend.firstName}
+                      <br></br> {friend.lastName}
+                    </Card.Title>
+                    <Card.Text>
+                      <strong>Age:</strong> {friend.age}
+                    </Card.Text>
+                    <Card.Text>
+                      <strong>City:</strong> {friend.city}
+                    </Card.Text>
+                  </Card.Body>
+                  <Card.Footer className="text-center">
+                    <ButtonGroup>
+                      <Button
+                        variant="danger btn-md"
+                        onClick={() => deleteFriend(friend.id)}>
+                        Delete
+                      </Button>
+                      <Button variant="primary btn-md" >
+                        Edit
+                      </Button>
+                    </ButtonGroup>
+                  </Card.Footer>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <h3 style={{ textAlign: "center" }}>
+            You have no friends
+          </h3>
+        )}
       </main>
     </>
   );
